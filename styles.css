@@ -2,112 +2,47 @@
    Studio Aerith — Split Sections (CSS Engine)
    ========================================================= */
 
-:root{
-  /* you can adjust this globally if you want a gap around the split */
-  --sa-split-gap: 0px;
-}
+/* Studio Aerith — Split Sections (Production Engine) */
 
-/* Wrapper created by plugin.js */
 .sa-split-wrap{
   display:flex;
-  flex-flow:row nowrap;
   width:100%;
+  min-height:100vh;
   position:relative;
-  box-sizing:border-box;
-
-  /* makes “full split section” feel */
-  min-height:100vh;
-
-  /* border support */
-  border: var(--sa-border, 0px) solid var(--sa-border-color, transparent);
-
-  /* optional padding gap like WM has (can be 0) */
-  gap: var(--sa-split-gap);
-  padding: var(--sa-split-gap);
-
-  /* important: prevents odd overflow flashes */
-  overflow: visible;
 }
 
-/* Each Squarespace section becomes a panel */
 .sa-split-panel{
-  flex: 0 0 auto;
-  position: relative;
-  box-sizing: border-box;
-
-  /* WM-like: panels feel like viewport panels */
+  flex:0 0 auto;
   min-height:100vh;
-
-  /* IMPORTANT:
-     Squarespace sections often have backgrounds/media.
-     Keep panel overflow visible so sticky children can work correctly. */
-  overflow: visible;
+  position:relative;
 }
 
-/* Make sure the inner content uses the available height nicely */
-.sa-split-panel .content-wrapper{
-  box-sizing:border-box;
-}
-
-/* ===== Sticky panel behavior =====
-   We make the entire section sticky. Works reliably with Squarespace sections.
-*/
-.sa-split-panel.sa-sticky{
+/* Make the CONTENT sticky, not the section */
+.sa-split-panel.sa-sticky .content-wrapper{
   position: sticky;
-  top: var(--sa-sticky-top, 0px);
-  align-self: flex-start;
+  top: 0;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
 }
 
-/* Some Squarespace templates set overflow hidden on section backgrounds.
-   Sticky media needs overflow visible. */
-.sa-split-panel.sa-sticky .section-background{
-  overflow: visible !important;
-}
-
-/* If the section background contains an img, keep it “cover” and viewport-like */
-.sa-split-panel .section-background img,
-.sa-split-panel img{
-  width:100% !important;
-  height:100% !important;
-  object-fit: cover;
-}
-
-/* Video backgrounds / background content should also be cover-ish */
-.sa-split-panel .section-background [data-controller],
-.sa-split-panel .section-background .section-background-content{
+/* Make media fill the sticky panel */
+.sa-split-panel img,
+.sa-split-panel video{
+  width:100%;
   height:100%;
+  object-fit:cover;
 }
 
-/* ===== Reduce Squarespace “extra top padding” issues on first section ===== */
-#sections .sa-split-wrap:first-child .sa-split-panel{
-  padding-top: var(--sa-header-spacer, 0px);
-}
-
-/* ===== Mobile stacking =====
-   JS toggles .sa-mobile-stack when below breakpoint.
-*/
+/* Mobile stacking */
 .sa-split-wrap.sa-mobile-stack{
-  flex-direction: column;
-  padding: 0;
-  gap: 0;
+  flex-direction:column;
 }
-
 .sa-split-wrap.sa-mobile-stack .sa-split-panel{
-  width: 100% !important;
-  min-height: auto;
-  position: relative !important; /* disables sticky on mobile unless you want it */
-}
-
-/* ===== Editor safety =====
-   Prevent weird behavior in Squarespace editor */
-body.sqs-edit-mode-active .sa-split-wrap{
-  display:block;
+  width:100%!important;
   min-height:auto;
-  padding:0;
-  gap:0;
 }
-body.sqs-edit-mode-active .sa-split-panel{
-  width:100% !important;
-  position:relative !important;
+.sa-split-wrap.sa-mobile-stack .sa-split-panel .content-wrapper{
+  position:relative;
   min-height:auto;
 }
