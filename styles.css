@@ -1,0 +1,49 @@
+/* Studio Aerith — Split Sections */
+
+.sa-split-wrap {
+  display: flex;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.sa-split-panel {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 50%;
+  position: relative;
+}
+
+/* Borders (set via CSS variables from JS) */
+.sa-split-wrap {
+  border: var(--sa-border, 0px) solid var(--sa-border-color, transparent);
+  background: var(--sa-background, transparent);
+}
+
+/* Sticky behavior
+   We make the panel sticky; inner Squarespace wrappers vary, so this is robust. */
+.sa-split-panel.sa-sticky {
+  position: sticky;
+  top: var(--sa-sticky-top, 0px);
+  align-self: flex-start;
+  height: fit-content;
+}
+
+/* Mobile stacking */
+@media (max-width: 799px) {
+  .sa-split-wrap.sa-mobile-stack {
+    flex-direction: column;
+  }
+  .sa-split-wrap.sa-mobile-stack .sa-split-panel {
+    width: 100% !important;
+  }
+}
+
+/* When editing in Squarespace, avoid messing with layout */
+body.sqs-edit-mode-active .sa-split-wrap {
+  display: block;
+}
+body.sqs-edit-mode-active .sa-split-panel {
+  width: 100% !important;
+  position: relative !important;
+}
